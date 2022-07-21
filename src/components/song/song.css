@@ -1,0 +1,13 @@
+.img-cover{
+    width: 90px;
+    height: 100%;
+}
+
+.like-icon{
+    cursor: pointer;
+}
+
+.like-icon svg{
+    width: 23px;
+    height: 23px;
+}

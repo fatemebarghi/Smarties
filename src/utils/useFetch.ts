@@ -2,9 +2,11 @@ import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 
 type ParamsType = {
+  headers?: {"Content-Type": string},
   url: string;
   data?: any;
   method: "GET" | "POST";
+  params?: {apikey: string}
 };
 
 type ResultType = {
@@ -15,13 +17,14 @@ type ResultType = {
 
 type ActionType =
   | { type: "FETCH_SUCCESS"; payload: any }
+  | { type: "FETCH_PENDING"; payload: any }
   | { type: "FETCH_FAILURE"; payload: any };
 
-export default function useFetch(params: ParamsType) {
+export default function useFetch(params?: ParamsType | undefined) {
   const initialResponse: ResultType = {
     isLoading: true,
     response: null,
-    error: Error,
+    error: null,
   };
 
   const fetchReducer = (state: typeof initialResponse, action: ActionType) => {
@@ -31,6 +34,13 @@ export default function useFetch(params: ParamsType) {
           isLoading: false,
           error: null,
           response: action.payload,
+        };
+      
+      case "FETCH_PENDING":
+        return {
+          isLoading: true,
+          error: null,
+          response: null,
         };
 
       case "FETCH_FAILURE":
@@ -46,19 +56,16 @@ export default function useFetch(params: ParamsType) {
   };
 
   const [result, dispatch] = useReducer(fetchReducer, initialResponse);
-  const [apiParams, setApiParams] = useState<ParamsType>(params);
-
-  const fetchData = () => {
-    axios(apiParams)
-      .then((res) => dispatch({ type: "FETCH_SUCCESS", payload: res }))
-      .catch((err) => dispatch({ type: "FETCH_FAILURE", payload: err }));
-  };
+  const [apiParams, setApiParams] = useState<ParamsType | undefined>(params);
 
   useEffect(() => {
+    // dispatch({ type: "FETCH_PENDING", payload: null });
     if (apiParams) {
-      fetchData();
+      axios(apiParams)
+      .then((res) => dispatch({ type: "FETCH_SUCCESS", payload: res }))
+      .catch((err) => dispatch({ type: "FETCH_FAILURE", payload: err }));
     }
   }, [apiParams]);
 
-  return [result, setApiParams]
+  return [result, setApiParams] as const;
 }
