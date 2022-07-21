@@ -24,7 +24,7 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
 
   useEffect(() => {
     if (intract.response?.status === 200) {
-        setIsLiked(!isLiked)
+      setIsLiked(!isLiked);
     }
   }, [intract.response]);
 
@@ -48,7 +48,7 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
   };
 
   return (
-    <Card className="m-3" onClick={() => handlePlay(info)}>
+    <Card className="m-3" onClick={() => handlePlay(info)} data-testid="song">
       <Card.Body className="d-flex p-0">
         <div>
           <img src={info.coverImg} className="img-cover" />
@@ -63,7 +63,11 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
             </Card.Subtitle>
           </div>
 
-          <div className="like-icon" onClick={(e) => handleLike(e, info.id)}>
+          <div
+            className="like-icon"
+            onClick={(e) => handleLike(e, info.id)}
+            data-testid="like-icon"
+          >
             {!isLiked ? <LikeIcon /> : <FillLikeIcon />}
           </div>
         </div>
