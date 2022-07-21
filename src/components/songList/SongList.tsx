@@ -12,6 +12,7 @@ const SongList: FunctionComponent = () => {
     setSongParams({
       url: "https://api-stg.jam-community.com/song/trending",
       method: "GET",
+      params: { apikey: "___agAFTxkmMIWsmN9zOpM_6l2SkZPPy21LGRlxhYD8" },
     });
   }, []);
 
@@ -37,7 +38,8 @@ const SongList: FunctionComponent = () => {
       {songs.isLoading ? (
         <Spinner animation="border" size="sm" />
       ) : (
-        songs.response && songList.map((song) => <Song key={song.id} info={song}/>)
+        songs.response &&
+        songList.map((song) => <Song key={song.id} info={song} />)
       )}
     </div>
   );

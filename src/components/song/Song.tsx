@@ -1,9 +1,15 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import useFetch from "../../utils/useFetch";
 import { SongInfo } from "../../types/types";
 import { PlaySongContext } from "../../store/PlaySongContext";
 import { Card } from "react-bootstrap";
 import { ReactComponent as LikeIcon } from "../../assets/icons/heart.svg";
+import { ReactComponent as FillLikeIcon } from "../../assets/icons/fill_heart.svg";
 import "./song.css";
 
 interface SongProps {
@@ -14,20 +20,31 @@ interface SongProps {
 const Song: FunctionComponent<SongProps> = ({ info }) => {
   const [intract, setIntractParams] = useFetch();
   const { setPlayingSong } = useContext(PlaySongContext);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (intract.response?.status === 200) {
+        setIsLiked(!isLiked)
+    }
+  }, [intract.response]);
 
   const handleLike = (e: any, id: string): void => {
     e.stopPropagation();
+
+    const formData = new FormData();
+    formData.append("id", id);
+
     setIntractParams({
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       method: "POST",
-      data: { id: id },
+      data: formData,
       url: "https://api-stg.jam-community.com/interact/like",
       params: { apikey: "___agAFTxkmMIWsmN9zOpM_6l2SkZPPy21LGRlxhYD8" },
     });
   };
 
-  const handlePlay = (id: string) => {
-    setPlayingSong(id);
+  const handlePlay = (musicFile: string) => {
+    setPlayingSong(musicFile);
   };
 
   return (
@@ -47,9 +64,7 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
           </div>
 
           <div className="like-icon" onClick={(e) => handleLike(e, info.id)}>
-            <LikeIcon />
-            <br />
-            {info.likes}
+            {!isLiked ? <LikeIcon /> : <FillLikeIcon />}
           </div>
         </div>
       </Card.Body>
