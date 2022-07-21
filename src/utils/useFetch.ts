@@ -2,9 +2,11 @@ import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 
 type ParamsType = {
+  headers?: {"Content-Type": string},
   url: string;
   data?: any;
   method: "GET" | "POST";
+  params?: {apikey: string}
 };
 
 type ResultType = {
