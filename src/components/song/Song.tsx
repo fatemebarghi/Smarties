@@ -5,9 +5,9 @@ import React, {
   useState,
 } from "react";
 import useFetch from "../../utils/useFetch";
-import { SongInfo } from "../../types/types";
 import { PlaySongContext } from "../../store/PlaySongContext";
 import { Card } from "react-bootstrap";
+import { SongInfo } from "../../types/types";
 import { ReactComponent as LikeIcon } from "../../assets/icons/heart.svg";
 import { ReactComponent as FillLikeIcon } from "../../assets/icons/fill_heart.svg";
 import "./song.css";
@@ -43,12 +43,12 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
     });
   };
 
-  const handlePlay = (musicFile: string) => {
-    setPlayingSong(musicFile);
+  const handlePlay = (info: SongInfo) => {
+    setPlayingSong(info);
   };
 
   return (
-    <Card className="m-3" onClick={() => handlePlay(info.musicFile)}>
+    <Card className="m-3" onClick={() => handlePlay(info)}>
       <Card.Body className="d-flex p-0">
         <div>
           <img src={info.coverImg} className="img-cover" />
