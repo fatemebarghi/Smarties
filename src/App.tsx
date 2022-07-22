@@ -1,14 +1,24 @@
-import React, { useContext } from "react";
-import "./App.css";
+import React from "react";
 import SongList from "./components/songList/SongList";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Player from "./components/player/Player";
+import { Navbar, Container } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <SongList />
-      <Player/>
+      <Navbar bg="light" className="mb-3">
+        <Container>
+          <Navbar.Brand href="#home">
+            <b>Jam Community</b>
+          </Navbar.Brand>
+        </Container>
+      </Navbar>
+      <Container>
+        <SongList />
+      </Container>
+      <Player />
     </div>
   );
 }

@@ -2,11 +2,12 @@ import React, { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 
 type ParamsType = {
-  headers?: {"Content-Type": string},
+  headers?: { "Content-Type": string };
   url: string;
   data?: any;
   method: "GET" | "POST";
-  params?: {apikey: string}
+  params?: { apikey: string };
+  handleData?: string;
 };
 
 type ResultType = {
@@ -35,13 +36,6 @@ export default function useFetch(params?: ParamsType | undefined) {
           error: null,
           response: action.payload,
         };
-      
-      case "FETCH_PENDING":
-        return {
-          isLoading: true,
-          error: null,
-          response: null,
-        };
 
       case "FETCH_FAILURE":
         return {
@@ -59,11 +53,10 @@ export default function useFetch(params?: ParamsType | undefined) {
   const [apiParams, setApiParams] = useState<ParamsType | undefined>(params);
 
   useEffect(() => {
-    // dispatch({ type: "FETCH_PENDING", payload: null });
     if (apiParams) {
       axios(apiParams)
-      .then((res) => dispatch({ type: "FETCH_SUCCESS", payload: res }))
-      .catch((err) => dispatch({ type: "FETCH_FAILURE", payload: err }));
+        .then((res) => dispatch({ type: "FETCH_SUCCESS", payload: res }))
+        .catch((err) => dispatch({ type: "FETCH_FAILURE", payload: err }));
     }
   }, [apiParams]);
 
