@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import useFetch from "../../utils/useFetch";
+import {useFetch} from "../../utils/useFetch";
 import Song from "../song/Song";
 import Spinner from "react-bootstrap/Spinner";
 import { SongInfo } from "../../types/types";

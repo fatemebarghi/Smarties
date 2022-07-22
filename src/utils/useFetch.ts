@@ -20,7 +20,7 @@ type ActionType =
   | { type: "FETCH_PENDING"; payload: any }
   | { type: "FETCH_FAILURE"; payload: any };
 
-export default function useFetch(params?: ParamsType | undefined) {
+export function useFetch(params?: ParamsType | undefined) {
   const initialResponse: ResultType = {
     isLoading: true,
     response: null,

@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import useFetch from "../../utils/useFetch";
+import { useFetch } from "../../utils/useFetch";
 import { PlaySongContext } from "../../store/PlaySongContext";
 import { Card } from "react-bootstrap";
 import { SongInfo } from "../../types/types";
@@ -68,7 +68,11 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
             onClick={(e) => handleLike(e, info.id)}
             data-testid="like-icon"
           >
-            {!isLiked ? <LikeIcon /> : <FillLikeIcon />}
+            {!isLiked ? (
+              <LikeIcon data-testid="like-icon-off" />
+            ) : (
+              <FillLikeIcon data-testid="like-icon-on" />
+            )}
           </div>
         </div>
       </Card.Body>

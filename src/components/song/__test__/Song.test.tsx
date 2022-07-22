@@ -11,7 +11,27 @@ const mockSonginfo: SongInfo = {
   coverImg: "coverImg",
 };
 
-const mockHandleClick = jest.fn();
+const successResponse = {
+  status: 200,
+};
+
+const errorResponse = {
+  status: 400,
+};
+
+const mockResponse = {
+  isLoading: false,
+  response: {},
+  error: null,
+};
+
+jest.mock("../../../utils/useFetch", () => {
+  return {
+    useFetch: () => {
+      return [mockResponse, jest.fn()] as const;
+    },
+  };
+});
 
 describe("song component unit tests", () => {
   it("should render the component correctly", () => {
@@ -39,15 +59,31 @@ describe("song component unit tests", () => {
     expect(artistName).toHaveClass("card-subtitle");
   });
 
-//   it("should render the off like icon", () => {
-//     render(<Song key={mockSonginfo.id} info={mockSonginfo} />);
-//     let icon = screen.getByTestId("like-icon");
-//   });
+  it("should render the off like icon", () => {
+    render(<Song key={mockSonginfo.id} info={mockSonginfo} />);
+    let icon = screen.getByText("heart.svg");
+    expect(icon).toBeVisible();
+  });
 
-  //   it("should call a function when clicked", () => {
-  //     render(<Song key={mockSonginfo.id} info={mockSonginfo} />);
-  //     let song = screen.getByTestId("song");
-  //     fireEvent.click(song);
-  //     expect(mockHandleClick).toBeCalled();
-  //   });
+  it("should render the off like icon if api status is not 200", async () => {
+    const { rerender } = render(
+      <Song key={mockSonginfo.id} info={mockSonginfo} />
+    );
+    let iconWrapper = screen.getByTestId("like-icon");
+    fireEvent.click(iconWrapper);
+    mockResponse.response = { ...errorResponse };
+    rerender(<Song key={mockSonginfo.id} info={mockSonginfo} />);
+    expect(screen.getByText("heart.svg")).toBeInTheDocument();
+  });
+
+  it("should render the on like icon after intract action", async () => {
+    const { rerender } = render(
+      <Song key={mockSonginfo.id} info={mockSonginfo} />
+    );
+    let iconWrapper = screen.getByTestId("like-icon");
+    fireEvent.click(iconWrapper);
+    mockResponse.response = { ...successResponse };
+    rerender(<Song key={mockSonginfo.id} info={mockSonginfo} />);
+    expect(screen.getByText("fill_heart.svg")).toBeInTheDocument();
+  });
 });
