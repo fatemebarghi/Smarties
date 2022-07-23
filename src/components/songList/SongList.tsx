@@ -10,7 +10,7 @@ const SongList: FunctionComponent = () => {
 
   useEffect(() => {
     setSongParams({
-      url: "https://api-stg.jam-community.com/song/trending",
+      url: "https://v8ork.mocklab.io/songs",
       method: "GET",
     });
   }, []);

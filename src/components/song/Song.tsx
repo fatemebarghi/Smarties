@@ -35,11 +35,9 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
     formData.append("id", id);
 
     setIntractParams({
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       method: "POST",
       data: formData,
-      url: "https://api-stg.jam-community.com/interact/like",
-      params: { apikey: "___agAFTxkmMIWsmN9zOpM_6l2SkZPPy21LGRlxhYD8" },
+      url: "https://v8ork.mocklab.io/intract/like",
     });
   };
 
