@@ -5,10 +5,10 @@ import Song from "../Song";
 const mockSonginfo: SongInfo = {
   id: "1234",
   name: "title",
-  musicFile: "test",
-  artistName: "artist",
+  music_file: "test",
+  artist_name: "artist",
   likes: 3,
-  coverImg: "coverImg",
+  cover_image: "coverImg",
 };
 
 const successResponse = {

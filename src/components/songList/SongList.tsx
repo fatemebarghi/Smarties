@@ -1,12 +1,11 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import {useFetch} from "../../utils/useFetch";
+import React, { FunctionComponent, useEffect } from "react";
+import { useFetch } from "../../utils/useFetch";
 import Song from "../song/Song";
 import Spinner from "react-bootstrap/Spinner";
-import { SongInfo } from "../../types/types";
+import { SongInfo, ResultType } from "../../types/types";
 
 const SongList: FunctionComponent = () => {
-  const [songs, setSongParams] = useFetch();
-  const [songList, setSongList] = useState<Array<SongInfo>>([]);
+  const [songs, setSongParams] = useFetch<ResultType<SongInfo[]>, undefined>();
 
   useEffect(() => {
     setSongParams({
@@ -15,30 +14,15 @@ const SongList: FunctionComponent = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (songs.response !== null) {
-      let listCopy: SongInfo[] = [];
-      songs.response.data.map((item: any) =>
-        listCopy.push({
-          id: item.id,
-          name: item.name,
-          artistName: item.artist_name,
-          likes: item.likes,
-          coverImg: item.cover_image_path,
-          musicFile: item.music_file_path,
-        })
-      );
-      setSongList(listCopy);
-    }
-  }, [songs.response]);
-
   return (
     <div>
       {songs.isLoading ? (
         <Spinner animation="border" size="sm" />
       ) : (
         songs.response &&
-        songList.map((song) => <Song key={song.id} info={song} />)
+        (songs.response as unknown as SongInfo[]).map((song: SongInfo) => (
+          <Song key={song.id} info={song} />
+        ))
       )}
     </div>
   );

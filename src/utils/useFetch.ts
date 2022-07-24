@@ -1,47 +1,60 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, {
+  SetStateAction,
+  Dispatch,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import axios from "axios";
+import { ResultType } from "../types/types";
 
-type ParamsType = {
+interface ParamsType<T> {
   headers?: { "Content-Type": string };
   url: string;
-  data?: any;
+  data?: T;
   method: "GET" | "POST";
   params?: { apikey: string };
   handleData?: string;
-};
+}
 
-type ResultType = {
-  isLoading: boolean;
-  response: any;
-  error: any;
-};
+type ActionType<T> =
+  | { type: "FETCH_SUCCESS"; payload: T }
+  | { type: "FETCH_PENDING"; payload: undefined }
+  | { type: "FETCH_FAILURE"; payload: Error };
 
-type ActionType =
-  | { type: "FETCH_SUCCESS"; payload: any }
-  | { type: "FETCH_PENDING"; payload: any }
-  | { type: "FETCH_FAILURE"; payload: any };
-
-export function useFetch(params?: ParamsType | undefined) {
-  const initialResponse: ResultType = {
-    isLoading: true,
-    response: null,
-    error: null,
+export function useFetch<T1,T2>(
+  params?: ParamsType<T2> | undefined
+): [ResultType<T1>, Dispatch<SetStateAction<ParamsType<T2> | undefined>>] {
+  const initialResponse: ResultType<T1> = {
+    isLoading: false,
+    response: undefined,
+    error: undefined,
   };
 
-  const fetchReducer = (state: typeof initialResponse, action: ActionType) => {
+  const fetchReducer = (
+    state: ResultType<T1>,
+    action: ActionType<T1>
+  ): ResultType<T1> => {
     switch (action.type) {
       case "FETCH_SUCCESS":
         return {
           isLoading: false,
-          error: null,
           response: action.payload,
+          error: undefined,
         };
 
       case "FETCH_FAILURE":
         return {
           isLoading: false,
+          response: undefined,
           error: action.payload,
-          response: null,
+        };
+
+      case "FETCH_PENDING":
+        return {
+          isLoading: true,
+          response: undefined,
+          error: undefined
         };
 
       default:
@@ -50,15 +63,17 @@ export function useFetch(params?: ParamsType | undefined) {
   };
 
   const [result, dispatch] = useReducer(fetchReducer, initialResponse);
-  const [apiParams, setApiParams] = useState<ParamsType | undefined>(params);
+  const [apiParams, setApiParams] = useState<ParamsType<T2> | undefined>(params);
 
   useEffect(() => {
     if (apiParams) {
-      axios(apiParams)
-        .then((res) => dispatch({ type: "FETCH_SUCCESS", payload: res }))
+      dispatch({ type: "FETCH_PENDING", payload: undefined });
+      axios
+        .request(apiParams)
+        .then((res) => dispatch({ type: "FETCH_SUCCESS", payload: res.data }))
         .catch((err) => dispatch({ type: "FETCH_FAILURE", payload: err }));
     }
   }, [apiParams]);
 
-  return [result, setApiParams] as const;
+  return [result, setApiParams];
 }
