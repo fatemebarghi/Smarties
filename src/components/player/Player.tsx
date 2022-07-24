@@ -7,7 +7,7 @@ import "./player.css";
 
 const Player = () => {
   const { playingSong } = useContext(PlaySongContext);
-  const songPlayer = createRef<any>();
+  const songPlayer = createRef<HTMLAudioElement>();
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
   useEffect(() => {
@@ -15,20 +15,24 @@ const Player = () => {
   }, [playingSong]);
 
   const handlePlay = () => {
-    songPlayer.current.play();
-    setIsPlaying(!isPlaying);
+    if (songPlayer.current) {
+      songPlayer.current.play();
+      setIsPlaying(!isPlaying);
+    }
   };
 
   const handlePause = () => {
-    songPlayer.current.pause();
-    setIsPlaying(!isPlaying);
+    if (songPlayer.current) {
+      songPlayer.current.pause();
+      setIsPlaying(!isPlaying);
+    }
   };
 
   return playingSong ? (
     <Card className="position-absolute bottom-0 w-100 border-top-2">
       <Card.Body className="d-flex p-0">
         <div>
-          <img src={playingSong.coverImg} className="img-cover" />
+          <img src={playingSong.cover_image} className="img-cover" />
         </div>
 
         <div className="d-flex flex-row justify-content-between w-100 p-3 align-items-center">
@@ -36,7 +40,7 @@ const Player = () => {
             <Card.Title>{playingSong.name}</Card.Title>
 
             <Card.Subtitle className="mb-2 text-muted">
-              {playingSong.artistName}
+              {playingSong.artist_name}
             </Card.Subtitle>
           </div>
 
@@ -45,7 +49,7 @@ const Player = () => {
           ) : (
             <PlayIcon className="control-icon" onClick={handlePlay} />
           )}
-          <audio autoPlay src={playingSong?.musicFile} ref={songPlayer} />
+          <audio autoPlay src={playingSong?.music_file} ref={songPlayer} />
         </div>
       </Card.Body>
     </Card>
