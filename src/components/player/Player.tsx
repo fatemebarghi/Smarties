@@ -28,8 +28,8 @@ const Player = () => {
     }
   };
 
-  return playingSong ? (
-    <Card className="position-absolute bottom-0 w-100 border-top-2">
+  return playingSong !== undefined ? (
+    <Card className="position-absolute bottom-0 w-100 border-top-2" data-testid="player">
       <Card.Body className="d-flex p-0">
         <div>
           <img src={playingSong.cover_image} className="img-cover" />

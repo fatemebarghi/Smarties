@@ -20,7 +20,7 @@ interface SongProps {
 
 const Song: FunctionComponent<SongProps> = ({ info }) => {
   const [intract, setIntractParams] = useFetch<ResultType<LikeRes>, FormData>();
-  const { setPlayingSong } = useContext(PlaySongContext);
+  const {onSongChange } = useContext(PlaySongContext);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
   };
 
   const handlePlay = (info: SongInfo) => {
-    setPlayingSong(info);
+    onSongChange(info);
   };
 
   return (
