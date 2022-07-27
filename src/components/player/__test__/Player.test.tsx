@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Player from "../Player";
 import { PlaySongContext } from "../../../store/PlaySongContext";
 import { SongInfo } from "../../../types/types";
@@ -45,5 +45,32 @@ describe("player component unit tests", () => {
   it("should render the image with correct source", () => {
     let image = screen.getByRole("img");
     expect(image).toHaveAttribute("src", "coverImg");
+  });
+
+  it("should render the name correctly", () => {
+    let name = screen.getByText("title");
+    expect(name).toHaveClass("card-title");
+  });
+
+  it("should render the artist name correctly", () => {
+    let artistName = screen.getByText("artist");
+    expect(artistName).toHaveClass("card-subtitle");
+  });
+
+  it("should render the audio with the correct source", () => {
+    let audio = screen.getByTestId("audio");
+    expect(audio).toHaveAttribute("src", "test");
+  });
+
+  it("should render the pause icon when song is playing", () => {
+    let pauseIcon = screen.getByText("pause.svg");
+    expect(pauseIcon).toBeInTheDocument();
+  });
+
+  it("should render the play icon when the song is paused", () => {
+    let pauseIcon = screen.getByText("pause.svg");
+    fireEvent.click(pauseIcon);
+    let playIcon = screen.getByText("play.svg");
+    expect(playIcon).toBeVisible();
   });
 });
