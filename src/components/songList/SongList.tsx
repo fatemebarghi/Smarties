@@ -15,9 +15,9 @@ const SongList: FunctionComponent = () => {
   }, []);
 
   return (
-    <div>
+    <div data-testid="song-list">
       {songs.isLoading ? (
-        <Spinner animation="border" size="sm" />
+        <Spinner data-testid="loading" animation="border" size="sm" />
       ) : (
         songs.response &&
         (songs.response as unknown as SongInfo[]).map((song: SongInfo) => (
