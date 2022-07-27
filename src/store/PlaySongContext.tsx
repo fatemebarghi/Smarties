@@ -2,24 +2,17 @@ import React, {
   createContext,
   useState,
   PropsWithChildren,
-  Dispatch,
-  SetStateAction,
 } from "react";
-import { SongInfo } from "../types/types";
+import { SongInfo, PlayerContextProps } from "../types/types";
 
-export interface ContextProps {
-  playingSong: SongInfo;
-  setPlayingSong: Dispatch<SetStateAction<SongInfo>>;
-}
-
-export const PlaySongContext = createContext({} as ContextProps);
+export const PlaySongContext = createContext({} as PlayerContextProps);
 
 export const PlaySongProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [playingSong, setPlayingSong] = useState<SongInfo>();
 
   return (
     <PlaySongContext.Provider
-      value={{ playingSong, setPlayingSong } as ContextProps}
+      value={{ playingSong, onSongChange: (newSong: SongInfo) => setPlayingSong(newSong) }}
     >
       {children}
     </PlaySongContext.Provider>

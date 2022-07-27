@@ -11,8 +11,13 @@ export interface SongInfo {
   likes: number;
   cover_image: string;
   music_file: string;
-};
+}
 
 export interface LikeRes {
-    status: 200
+  status: 200;
+}
+
+export interface PlayerContextProps {
+  playingSong: SongInfo | undefined;
+  onSongChange: (song: SongInfo) => void;
 }
