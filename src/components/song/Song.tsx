@@ -10,7 +10,7 @@ import { Card } from "react-bootstrap";
 import { SongInfo } from "../../types/types";
 import { ReactComponent as LikeIcon } from "../../assets/icons/heart.svg";
 import { ReactComponent as FillLikeIcon } from "../../assets/icons/fill_heart.svg";
-import { ResultType, LikeRes } from "../../types/types";
+import { LikeRes } from "../../types/types";
 import "./song.css";
 
 interface SongProps {
@@ -19,13 +19,13 @@ interface SongProps {
 }
 
 const Song: FunctionComponent<SongProps> = ({ info }) => {
-  const [intract, setIntractParams] = useFetch<ResultType<LikeRes>, FormData>();
+  const [intract, setIntractParams] = useFetch<LikeRes, FormData>();
   const {onSongChange } = useContext(PlaySongContext);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
   useEffect(() => {
     if (intract.response) {
-      setIsLiked(!isLiked);
+      intract.response?.status === 200 && setIsLiked(!isLiked);
     }
   }, [intract.response]);
 
