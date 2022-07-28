@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders <App /> should pass shallow snapshot test 1`] = `
+LoadedCheerio {
+  "0": <div
+    class="App"
+  >
+    <nav
+      class="mb-3 navbar navbar-expand navbar-light bg-light"
+    >
+      <div
+        class="container"
+      >
+        <a
+          class="navbar-brand"
+          href="#home"
+        >
+          <b>
+            Jam Community
+          </b>
+        </a>
+      </div>
+    </nav>
+    <div
+      class="container"
+    >
+      <div
+        data-testid="song-list"
+      />
+    </div>
+  </div>,
+  "_root": LoadedCheerio {
+    "0": Document {
+      "children": Array [
+        <html>
+          <head />
+          <body />
+        </html>,
+      ],
+      "endIndex": null,
+      "next": null,
+      "parent": null,
+      "prev": null,
+      "startIndex": null,
+      "type": "root",
+      "x-mode": "quirks",
+    },
+    "_root": [Circular],
+    "length": 1,
+    "options": Object {
+      "decodeEntities": true,
+      "xml": false,
+    },
+  },
+  "length": 1,
+  "options": Object {
+    "decodeEntities": true,
+    "xml": false,
+  },
+}
+`;
