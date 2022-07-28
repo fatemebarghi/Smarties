@@ -73,4 +73,13 @@ describe("player component unit tests", () => {
     let playIcon = screen.getByText("play.svg");
     expect(playIcon).toBeVisible();
   });
+
+  it("should render the pause icon when the play icon clicked", () => {
+    let pauseIcon = screen.getByText("pause.svg");
+    fireEvent.click(pauseIcon);
+    let playIcon = screen.getByText("play.svg");
+    fireEvent.click(playIcon);
+    let pauseIconNew = screen.getByText("pause.svg");
+    expect(pauseIconNew).toBeInTheDocument();
+  });
 });
