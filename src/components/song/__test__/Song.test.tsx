@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { SongInfo } from "../../../types/types";
 import Song from "../Song";
 import { PlaySongContext } from "../../../store/PlaySongContext";
+import React from "react";
 
 const mockSonginfo: SongInfo = {
   id: "1234",
@@ -43,6 +44,17 @@ jest.mock("../../../utils/useFetch", () => {
     },
   };
 });
+
+// jest.mock("../../../store/PlaySongContext",({children}) => {
+//   return (
+//     <PlaySongContext.Provider
+//       value={{ playingSong: mockSonginfo, onSongChange: jest.fn() }}
+//     >
+//       {/* <Song key={mockSonginfo.id} info={mockSonginfo} /> */}
+//       {children}
+//     </PlaySongContext.Provider>
+//   );
+// })
 
 // const handlePlay =  jest.fn((res) => console.log(res))
 
@@ -100,10 +112,17 @@ describe("song component unit tests", () => {
     expect(screen.getByText("fill_heart.svg")).toBeInTheDocument();
   });
 
-  // it("should change the song when clicked", async () => {
-  //   render(<MockSong />);
-  //   const songCard = screen.getByTestId("song");
-  //   await fireEvent.click(songCard);
-  //   expect(handlePlay).toBeCalled()
-  // });
+  it("should change the song when clicked",() => {
+    const obj = { playingSong: mockSonginfo, onSongChange: jest.fn() }
+    render(
+      <PlaySongContext.Provider
+        value={obj}
+      >
+        <Song key={mockSonginfo.id} info={mockSonginfo} />
+      </PlaySongContext.Provider>
+    );
+    const songCard = screen.getByTestId("song");
+    fireEvent.click(songCard);
+    expect(obj.onSongChange).toBeCalledWith(mockSonginfo);
+  });
 });

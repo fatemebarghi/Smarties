@@ -15,17 +15,13 @@ const Player = () => {
   }, [playingSong]);
 
   const handlePlay = () => {
-    if (songPlayer.current) {
-      songPlayer.current.play();
-      setIsPlaying(!isPlaying);
-    }
+    songPlayer.current?.play();
+    setIsPlaying(!isPlaying);
   };
 
   const handlePause = () => {
-    if (songPlayer.current) {
-      songPlayer.current.pause();
-      setIsPlaying(!isPlaying);
-    }
+    songPlayer.current?.pause();
+    setIsPlaying(!isPlaying);
   };
 
   return playingSong !== undefined ? (

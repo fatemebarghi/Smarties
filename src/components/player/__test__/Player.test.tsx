@@ -27,6 +27,9 @@ const MockPlayer: React.FunctionComponent<Mockplayer> = ({ song }) => {
   );
 };
 
+window.HTMLMediaElement.prototype.play = jest.fn();
+window.HTMLMediaElement.prototype.pause = jest.fn();
+
 describe("should not show the palyer", () => {
   it("should not show player if no song is playing", () => {
     const { container } = render(<MockPlayer song={undefined} />);
