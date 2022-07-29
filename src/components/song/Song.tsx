@@ -20,13 +20,11 @@ interface SongProps {
 
 const Song: FunctionComponent<SongProps> = ({ info }) => {
   const [intract, setIntractParams] = useFetch<LikeRes, FormData>();
-  const {onSongChange } = useContext(PlaySongContext);
+  const { onSongChange } = useContext(PlaySongContext);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
   useEffect(() => {
-    if (intract.response) {
-      intract.response?.status === 200 && setIsLiked(!isLiked);
-    }
+    intract.response?.status === 200 && setIsLiked(!isLiked);
   }, [intract.response]);
 
   const handleLike = (e: React.MouseEvent, id: string): void => {
@@ -50,7 +48,7 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
     <Card className="m-3" onClick={() => handlePlay(info)} data-testid="song">
       <Card.Body className="d-flex p-0">
         <div>
-          <img src={info.cover_image} className="img-cover" />
+          <img src={info.cover_image} className="img-cover" alt="cover"/>
         </div>
 
         <div className="d-flex flex-row justify-content-between w-100 p-3 align-items-center">

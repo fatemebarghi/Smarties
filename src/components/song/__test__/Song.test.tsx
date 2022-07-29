@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { SongInfo } from "../../../types/types";
 import Song from "../Song";
+import { PlaySongContext } from "../../../store/PlaySongContext";
 
 const mockSonginfo: SongInfo = {
   id: "1234",
@@ -85,5 +86,19 @@ describe("song component unit tests", () => {
     mockResponse.response = { ...successResponse };
     rerender(<Song key={mockSonginfo.id} info={mockSonginfo} />);
     expect(screen.getByText("fill_heart.svg")).toBeInTheDocument();
+  });
+
+  it("should change the song when clicked",() => {
+    const obj = { playingSong: mockSonginfo, onSongChange: jest.fn() }
+    render(
+      <PlaySongContext.Provider
+        value={obj}
+      >
+        <Song key={mockSonginfo.id} info={mockSonginfo} />
+      </PlaySongContext.Provider>
+    );
+    const songCard = screen.getByTestId("song");
+    fireEvent.click(songCard);
+    expect(obj.onSongChange).toBeCalledWith(mockSonginfo);
   });
 });

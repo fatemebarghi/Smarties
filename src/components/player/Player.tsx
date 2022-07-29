@@ -15,17 +15,13 @@ const Player = () => {
   }, [playingSong]);
 
   const handlePlay = () => {
-    if (songPlayer.current) {
-      songPlayer.current.play();
-      setIsPlaying(!isPlaying);
-    }
+    songPlayer.current?.play();
+    setIsPlaying(!isPlaying);
   };
 
   const handlePause = () => {
-    if (songPlayer.current) {
-      songPlayer.current.pause();
-      setIsPlaying(!isPlaying);
-    }
+    songPlayer.current?.pause();
+    setIsPlaying(!isPlaying);
   };
 
   return playingSong !== undefined ? (
@@ -35,7 +31,7 @@ const Player = () => {
     >
       <Card.Body className="d-flex p-0">
         <div>
-          <img src={playingSong.cover_image} className="img-cover" />
+          <img src={playingSong.cover_image} className="img-cover" alt="cover"/>
         </div>
 
         <div className="d-flex flex-row justify-content-between w-100 p-3 align-items-center">
