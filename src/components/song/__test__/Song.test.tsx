@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { SongInfo } from "../../../types/types";
 import Song from "../Song";
 import { PlaySongContext } from "../../../store/PlaySongContext";
-import React from "react";
 
 const mockSonginfo: SongInfo = {
   id: "1234",
@@ -27,16 +26,6 @@ const mockResponse = {
   error: null,
 };
 
-// const MockSong: React.FunctionComponent = () => {
-//   return (
-//     <PlaySongContext.Provider
-//       value={{ playingSong: mockSonginfo, onSongChange: jest.fn() }}
-//     >
-//       <Song key={mockSonginfo.id} info={mockSonginfo} />
-//     </PlaySongContext.Provider>
-//   );
-// };
-
 jest.mock("../../../utils/useFetch", () => {
   return {
     useFetch: () => {
@@ -44,19 +33,6 @@ jest.mock("../../../utils/useFetch", () => {
     },
   };
 });
-
-// jest.mock("../../../store/PlaySongContext",({children}) => {
-//   return (
-//     <PlaySongContext.Provider
-//       value={{ playingSong: mockSonginfo, onSongChange: jest.fn() }}
-//     >
-//       {/* <Song key={mockSonginfo.id} info={mockSonginfo} /> */}
-//       {children}
-//     </PlaySongContext.Provider>
-//   );
-// })
-
-// const handlePlay =  jest.fn((res) => console.log(res))
 
 describe("song component unit tests", () => {
   it("should render the component correctly", () => {

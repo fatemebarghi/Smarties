@@ -25,19 +25,20 @@ jest.mock("../../../utils/useFetch", () => {
 });
 
 describe("songlist component unit tests", () => {
-  beforeEach(() => render(<SongList />));
-
   it("should render the songlist component", () => {
+    render(<SongList />);
     const songListWrapper = screen.getByTestId("song-list");
     expect(songListWrapper).toBeInTheDocument();
   });
 
   it("should render one song card", () => {
+    render(<SongList />);
     const songListWrapper = screen.getByTestId("song-list");
     expect(songListWrapper.childNodes.length).toBe(1);
   });
 
   it("should show the loading if the data is not received yet", () => {
+    render(<SongList />);
     mockResponse.isLoading = true;
     const { rerender } = render(<SongList />);
     rerender(<SongList />);

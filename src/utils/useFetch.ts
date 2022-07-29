@@ -1,4 +1,4 @@
-import React, {
+import {
   SetStateAction,
   Dispatch,
   useEffect,
@@ -56,9 +56,6 @@ export function useFetch<T1,T2>(
           response: undefined,
           error: undefined
         };
-
-      default:
-        return state;
     }
   };
 
