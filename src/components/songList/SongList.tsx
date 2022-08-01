@@ -9,7 +9,7 @@ const SongList: FunctionComponent = () => {
 
   useEffect(() => {
     setSongParams({
-      url: "https://v8ork.mocklab.io/songs",
+      url: "http://localhost:3001/songs",
       method: "GET",
     });
   }, []);
