@@ -36,7 +36,7 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
     setIntractParams({
       method: "POST",
       data: formData,
-      url: "https://v8ork.mocklab.io/intract/like",
+      url: "http://localhost:3001/intraction",
     });
   };
 
