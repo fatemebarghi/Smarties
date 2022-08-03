@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const connectDB = async (query) => {
+const connectDB = async (query, values) => {
   try {
     const pool = new Pool({
       user: process.env.PGUSER,
@@ -13,9 +13,9 @@ const connectDB = async (query) => {
     });
 
     await pool.connect();
-    const res = await pool.query(query);
+    const res = await pool.query(query, values);
     // await pool.end();
-    return res.rows;
+    return res;
   } catch {
     console.log("error!");
   }

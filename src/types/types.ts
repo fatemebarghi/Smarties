@@ -10,10 +10,11 @@ export interface SongInfo {
   artist_name: string;
   cover_image: string;
   music_file: string;
+  is_liked?: boolean;
 }
 
 export interface LikeRes {
-  status: 200;
+  value: boolean;
 }
 
 export interface PlayerContextProps {

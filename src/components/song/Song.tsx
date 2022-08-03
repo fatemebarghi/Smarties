@@ -26,21 +26,19 @@ interface Interaction {
 const Song: FunctionComponent<SongProps> = ({ info }) => {
   const [intract, setIntractParams] = useFetch<LikeRes, Interaction>();
   const { onSongChange } = useContext(PlaySongContext);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(info?.is_liked || false);
 
   useEffect(() => {
-    intract.response?.status === 200 && setIsLiked(!isLiked);
+    intract.response && setIsLiked(intract.response.value);
   }, [intract.response]);
 
   const handleLike = (e: React.MouseEvent, id: string): void => {
     e.stopPropagation();
 
-    const formData = new FormData();
     const data = {
       id: id,
       value: !isLiked,
     };
-    formData.append("data", JSON.stringify(data));
 
     setIntractParams({
       method: "POST",
