@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
 
-/* POST like status */
 router.post("/", function (req, res) {
+  console.log(req.body);
   res.send(JSON.stringify({ status: 200 }));
 });
 
