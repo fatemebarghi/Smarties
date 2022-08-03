@@ -24,7 +24,7 @@ interface Interaction {
 }
 
 const Song: FunctionComponent<SongProps> = ({ info }) => {
-  const [intract, setIntractParams] = useFetch<LikeRes, any>();
+  const [intract, setIntractParams] = useFetch<LikeRes, Interaction>();
   const { onSongChange } = useContext(PlaySongContext);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
