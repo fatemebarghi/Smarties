@@ -10,6 +10,7 @@ import { Card } from "react-bootstrap";
 import { SongInfo } from "../../types/types";
 import { ReactComponent as LikeIcon } from "../../assets/icons/heart.svg";
 import { ReactComponent as FillLikeIcon } from "../../assets/icons/fill_heart.svg";
+import { LikeRes } from "../../types/types";
 import "./song.css";
 
 interface SongProps {
@@ -17,55 +18,58 @@ interface SongProps {
   info: SongInfo;
 }
 
+interface Interaction {
+  id: string;
+  value: boolean;
+}
+
 const Song: FunctionComponent<SongProps> = ({ info }) => {
-  const [intract, setIntractParams] = useFetch();
-  const { setPlayingSong } = useContext(PlaySongContext);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [intract, setIntractParams] = useFetch<LikeRes, Interaction>();
+  const { onSongChange } = useContext(PlaySongContext);
+  const [isLiked, setIsLiked] = useState<boolean>(info?.is_liked || false);
 
   useEffect(() => {
-    if (intract.response?.status === 200) {
-      setIsLiked(!isLiked);
-    }
+    intract.response && setIsLiked(intract.response.value);
   }, [intract.response]);
 
-  const handleLike = (e: any, id: string): void => {
+  const handleLike = (e: React.MouseEvent, id: string): void => {
     e.stopPropagation();
 
-    const formData = new FormData();
-    formData.append("id", id);
+    const data = {
+      id: id,
+      value: !isLiked,
+    };
 
     setIntractParams({
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       method: "POST",
-      data: formData,
-      url: "https://api-stg.jam-community.com/interact/like",
-      params: { apikey: "___agAFTxkmMIWsmN9zOpM_6l2SkZPPy21LGRlxhYD8" },
+      data: data,
+      url: "http://localhost:3001/intraction",
     });
   };
 
   const handlePlay = (info: SongInfo) => {
-    setPlayingSong(info);
+    onSongChange(info);
   };
 
   return (
     <Card className="m-3" onClick={() => handlePlay(info)} data-testid="song">
       <Card.Body className="d-flex p-0">
         <div>
-          <img src={info.coverImg} className="img-cover" />
+          <img src={info.cover_image} className="img-cover" alt="cover" />
         </div>
 
         <div className="d-flex flex-row justify-content-between w-100 p-3 align-items-center">
           <div className="d-flex flex-column">
-            <Card.Title>{info.name}</Card.Title>
+            <Card.Title>{info.song_name}</Card.Title>
 
             <Card.Subtitle className="mb-2 text-muted">
-              {info.artistName}
+              {info.artist_name}
             </Card.Subtitle>
           </div>
 
           <div
             className="like-icon"
-            onClick={(e) => handleLike(e, info.id)}
+            onClick={(e) => handleLike(e, info.song_id)}
             data-testid="like-icon"
           >
             {!isLiked ? (
