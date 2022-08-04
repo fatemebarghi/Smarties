@@ -5,16 +5,16 @@ export interface ResultType<T> {
 }
 
 export interface SongInfo {
-  id: string;
-  name: string;
+  song_id: string;
+  song_name: string;
   artist_name: string;
-  likes: number;
   cover_image: string;
   music_file: string;
+  is_liked?: boolean;
 }
 
 export interface LikeRes {
-  status: 200;
+  value: boolean;
 }
 
 export interface PlayerContextProps {

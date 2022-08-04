@@ -9,7 +9,6 @@ import axios from "axios";
 import { ResultType } from "../types/types";
 
 interface ParamsType<T> {
-  headers?: { "Content-Type": string };
   url: string;
   data?: T;
   method: "GET" | "POST";
@@ -22,7 +21,7 @@ type ActionType<T> =
   | { type: "FETCH_PENDING"; payload: undefined }
   | { type: "FETCH_FAILURE"; payload: Error };
 
-export function useFetch<T1,T2>(
+export function useFetch<T1, T2>(
   params?: ParamsType<T2> | undefined
 ): [ResultType<T1>, Dispatch<SetStateAction<ParamsType<T2> | undefined>>] {
   const initialResponse: ResultType<T1> = {
@@ -54,19 +53,27 @@ export function useFetch<T1,T2>(
         return {
           isLoading: true,
           response: undefined,
-          error: undefined
+          error: undefined,
         };
     }
   };
 
   const [result, dispatch] = useReducer(fetchReducer, initialResponse);
-  const [apiParams, setApiParams] = useState<ParamsType<T2> | undefined>(params);
+  const [apiParams, setApiParams] = useState<ParamsType<T2> | undefined>(
+    params
+  );
 
+  axios.defaults.headers.common["Content-Type"] = "application/json";
   useEffect(() => {
     if (apiParams) {
       dispatch({ type: "FETCH_PENDING", payload: undefined });
       axios
-        .request(apiParams)
+        .request({
+          headers: {
+            "Content-Type": "application/json",
+          },
+          ...apiParams,
+        })
         .then((res) => dispatch({ type: "FETCH_SUCCESS", payload: res.data }))
         .catch((err) => dispatch({ type: "FETCH_FAILURE", payload: err }));
     }

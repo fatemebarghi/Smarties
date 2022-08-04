@@ -21,7 +21,7 @@ const SongList: FunctionComponent = () => {
       ) : (
         songs.response &&
         (songs.response as unknown as SongInfo[]).map((song: SongInfo) => (
-          <Song key={song.id} info={song} />
+          <Song key={song.song_id} info={song} />
         ))
       )}
     </div>

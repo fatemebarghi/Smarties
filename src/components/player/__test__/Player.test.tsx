@@ -9,10 +9,9 @@ interface Mockplayer {
 }
 
 const mockSongInfo: SongInfo = {
-  id: "1234",
-  name: "title",
+  song_id: "1234",
+  song_name: "title",
   artist_name: "artist",
-  likes: 3,
   cover_image: "coverImg",
   music_file: "test",
 };

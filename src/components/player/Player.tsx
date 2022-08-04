@@ -36,7 +36,7 @@ const Player = () => {
 
         <div className="d-flex flex-row justify-content-between w-100 p-3 align-items-center">
           <div className="d-flex flex-column">
-            <Card.Title>{playingSong.name}</Card.Title>
+            <Card.Title>{playingSong.song_name}</Card.Title>
 
             <Card.Subtitle className="mb-2 text-muted">
               {playingSong.artist_name}
