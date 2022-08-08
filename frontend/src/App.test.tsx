@@ -40,6 +40,6 @@ describe("integration test", () => {
     expect(screen.queryByTestId("player")).not.toBeInTheDocument();
     fireEvent.click(screen.getByTestId("song"));
     const player = screen.getByTestId("player");
-      expect(player).toBeInTheDocument();
+    expect(player).toBeInTheDocument();
   });
 });
