@@ -14,7 +14,7 @@ import { LikeRes } from "../../types/types";
 import "./song.css";
 
 interface SongProps {
-  key: string;
+  key?: string;
   info: SongInfo;
 }
 
@@ -52,35 +52,37 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
   };
 
   return (
-    <Card className="m-3" onClick={() => handlePlay(info)} data-testid="song">
-      <Card.Body className="d-flex p-0">
-        <div>
-          <img src={info.cover_image} className="img-cover" alt="cover" />
-        </div>
-
-        <div className="d-flex flex-row justify-content-between w-100 p-3 align-items-center">
-          <div className="d-flex flex-column">
-            <Card.Title>{info.song_name}</Card.Title>
-
-            <Card.Subtitle className="mb-2 text-muted">
-              {info.artist_name}
-            </Card.Subtitle>
+    info && (
+      <Card className="m-3" onClick={() => handlePlay(info)} data-testid="song">
+        <Card.Body className="d-flex p-0">
+          <div>
+            <img src={info.cover_image} className="img-cover" alt="cover" />
           </div>
 
-          <div
-            className="like-icon"
-            onClick={(e) => handleLike(e, info.song_id)}
-            data-testid="like-icon"
-          >
-            {!isLiked ? (
-              <LikeIcon data-testid="like-icon-off" />
-            ) : (
-              <FillLikeIcon data-testid="like-icon-on" />
-            )}
+          <div className="d-flex flex-row justify-content-between w-100 p-3 align-items-center">
+            <div className="d-flex flex-column">
+              <Card.Title>{info.song_name}</Card.Title>
+
+              <Card.Subtitle className="mb-2 text-muted">
+                {info.artist_name}
+              </Card.Subtitle>
+            </div>
+
+            <div
+              className="like-icon"
+              onClick={(e) => handleLike(e, info.song_id)}
+              data-testid="like-icon"
+            >
+              {!isLiked ? (
+                <LikeIcon data-testid="like-icon-off" />
+              ) : (
+                <FillLikeIcon data-testid="like-icon-on" />
+              )}
+            </div>
           </div>
-        </div>
-      </Card.Body>
-    </Card>
+        </Card.Body>
+      </Card>
+    )
   );
 };
 
