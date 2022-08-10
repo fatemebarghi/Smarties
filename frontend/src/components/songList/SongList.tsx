@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { useFetch } from "../../utils/useFetch";
 import Song from "../song/Song";
 import Spinner from "react-bootstrap/Spinner";
@@ -18,7 +18,7 @@ const SongList: FunctionComponent = () => {
       url: "http://localhost:3001/songs",
       method: "GET",
     });
-  }, []);
+  },[setSongParams]);
 
   const Row = ({ index, style }: RowProps) => {
     const data = songs.response ? songs.response[index] : ({} as SongInfo);
@@ -42,7 +42,7 @@ const SongList: FunctionComponent = () => {
             itemCount={songs.response.length}
             itemSize={120}
             width={
-              (document.getElementsByClassName("container")[0]?.scrollWidth as number)
+              (document.getElementsByClassName("container")[0]?.clientWidth as number)
             }
           >
             {Row}
