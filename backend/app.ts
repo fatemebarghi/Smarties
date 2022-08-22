@@ -6,6 +6,7 @@ var cors = require("cors");
 
 var songsRouter = require("./routes/songs");
 var intractionRouter = require("./routes/intraction");
+var deleteSontRouter = require("./routes/deleteSong");
 
 var app = express();
 
@@ -13,7 +14,7 @@ var app = express();
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE"],
     allowedHeaders: ["Content-Type"],
   })
 );
@@ -25,6 +26,7 @@ app.use(cookieParser());
 
 app.use("/songs", songsRouter);
 app.use("/intraction", intractionRouter);
+app.use("/delete-song", deleteSontRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,17 +1,21 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, Fragment, useEffect } from "react";
 import { useFetch } from "../../utils/useFetch";
 import Song from "../song/Song";
 import Spinner from "react-bootstrap/Spinner";
-import { SongInfo, ResultType } from "../../types/types";
+import { SongInfo } from "../../types/types";
 
 const SongList: FunctionComponent = () => {
-  const [songs, setSongParams] = useFetch<ResultType<SongInfo[]>, undefined>();
+  const [songs, setSongParams] = useFetch<SongInfo[], undefined>();
 
-  useEffect(() => {
+  const handleGetSongs = () => {
     setSongParams({
       url: "http://localhost:3001/songs",
       method: "GET",
     });
+  };
+
+  useEffect(() => {
+    handleGetSongs();
   }, []);
 
   return (
@@ -19,10 +23,14 @@ const SongList: FunctionComponent = () => {
       {songs.isLoading ? (
         <Spinner data-testid="loading" animation="border" size="sm" />
       ) : (
-        songs.response &&
-        (songs.response as unknown as SongInfo[]).map((song: SongInfo) => (
-          <Song key={song.song_id} info={song} />
-        ))
+        songs.response && (
+          <Fragment>
+            <h3>There are {songs.response?.length} musics in the list!</h3>
+            {(songs.response as unknown as SongInfo[]).map((song: SongInfo) => (
+              <Song key={song.song_id} info={song} handleGetSongs={handleGetSongs} />
+            ))}
+          </Fragment>
+        )
       )}
     </div>
   );

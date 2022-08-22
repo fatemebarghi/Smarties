@@ -11,7 +11,7 @@ function App() {
       <Navbar bg="light" className="mb-3">
         <Container>
           <Navbar.Brand href="#home">
-            <b>Jam Community</b>
+            <b>Smarties :)</b>
           </Navbar.Brand>
         </Container>
       </Navbar>

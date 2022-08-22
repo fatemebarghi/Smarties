@@ -10,12 +10,14 @@ import { Card } from "react-bootstrap";
 import { SongInfo } from "../../types/types";
 import { ReactComponent as LikeIcon } from "../../assets/icons/heart.svg";
 import { ReactComponent as FillLikeIcon } from "../../assets/icons/fill_heart.svg";
+import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
 import { LikeRes } from "../../types/types";
 import "./song.css";
 
 interface SongProps {
   key: string;
   info: SongInfo;
+  handleGetSongs?: () => void;
 }
 
 interface Interaction {
@@ -23,14 +25,25 @@ interface Interaction {
   value: boolean;
 }
 
-const Song: FunctionComponent<SongProps> = ({ info }) => {
+interface DeleteRes {
+  id: string;
+}
+
+const Song: FunctionComponent<SongProps> = ({ info, handleGetSongs }) => {
   const [intract, setIntractParams] = useFetch<LikeRes, Interaction>();
+  const [deleteSong, setDeleteParams] = useFetch<DeleteRes, DeleteRes>();
   const { onSongChange } = useContext(PlaySongContext);
   const [isLiked, setIsLiked] = useState<boolean>(info?.is_liked || false);
 
   useEffect(() => {
     intract.response && setIsLiked(intract.response.value);
   }, [intract.response]);
+
+  useEffect(() => {
+    if (deleteSong?.response !== undefined) {
+      handleGetSongs();
+    }
+  }, [deleteSong, handleGetSongs]);
 
   const handleLike = (e: React.MouseEvent, id: string): void => {
     e.stopPropagation();
@@ -44,6 +57,16 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
       method: "POST",
       data: data,
       url: "http://localhost:3001/intraction",
+    });
+  };
+
+  const handleDelete = (e: React.MouseEvent, id: string): void => {
+    e.stopPropagation();
+    console.log(id);
+    setDeleteParams({
+      method: "DELETE",
+      data: { id: id },
+      url: "http://localhost:3001/delete-song",
     });
   };
 
@@ -67,16 +90,25 @@ const Song: FunctionComponent<SongProps> = ({ info }) => {
             </Card.Subtitle>
           </div>
 
-          <div
-            className="like-icon"
-            onClick={(e) => handleLike(e, info.song_id)}
-            data-testid="like-icon"
-          >
-            {!isLiked ? (
-              <LikeIcon data-testid="like-icon-off" />
-            ) : (
-              <FillLikeIcon data-testid="like-icon-on" />
-            )}
+          <div className="d-flex justify-content-around icon-list">
+            <div
+              className="icon"
+              onClick={(e) => handleLike(e, info.song_id)}
+              data-testid="like-icon"
+            >
+              {!isLiked ? (
+                <LikeIcon data-testid="like-icon-off" />
+              ) : (
+                <FillLikeIcon data-testid="like-icon-on" />
+              )}
+            </div>
+
+            <div
+              className="icon"
+              onClick={(e) => handleDelete(e, info.song_id)}
+            >
+              <DeleteIcon />
+            </div>
           </div>
         </div>
       </Card.Body>

@@ -3,11 +3,15 @@
     height: 100%;
 }
 
-.like-icon{
+.icon-list{
+    width: 60px;
+}
+
+.icon{
     cursor: pointer;
 }
 
-.like-icon svg{
+.icon svg{
     width: 23px;
     height: 23px;
 }

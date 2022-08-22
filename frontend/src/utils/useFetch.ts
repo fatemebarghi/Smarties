@@ -11,7 +11,7 @@ import { ResultType } from "../types/types";
 interface ParamsType<T> {
   url: string;
   data?: T;
-  method: "GET" | "POST";
+  method: "GET" | "POST" | "DELETE";
   params?: { apikey: string };
   handleData?: string;
 }
